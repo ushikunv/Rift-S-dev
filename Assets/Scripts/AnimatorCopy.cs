@@ -15,6 +15,7 @@ public class AnimatorCopy : MonoBehaviour
     void Start()
     {
         thisAnimator=GetComponent<Animator>();
+        Debug.Log(thisAnimator);
         thisHandler = new HumanPoseHandler(thisAnimator.avatar,thisAnimator.transform);
         IKHandler = new HumanPoseHandler(IKAnimator.avatar,IKAnimator.transform);
     }
@@ -35,12 +36,12 @@ public class AnimatorCopy : MonoBehaviour
         //手のグッパー。Primaryが左手
             for(int i=55;i<=74;i++){
                 float readValue=OVRInput.Get (OVRInput.Axis1D.PrimaryHandTrigger);
-                humanPose.muscles[i]=-readValue+0.5f;   
+                humanPose.muscles[i]=-readValue+0.3f;   
             }
 
             for(int i=75;i<=94;i++){
                 float readValue=OVRInput.Get (OVRInput.Axis1D.SecondaryHandTrigger);
-                humanPose.muscles[i]=-readValue+0.5f;
+                humanPose.muscles[i]=-readValue+0.3f;
             }
         
         //modifyしたhumanPoseをSetする

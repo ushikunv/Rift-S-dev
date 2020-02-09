@@ -11,12 +11,14 @@ public class IKControl : MonoBehaviour
     public Transform lookAtObj = null;
     public Transform headObj = null;
     private Quaternion preRotation;
-
+    private Vector3 prePosition;
+    private float movedDistance=0f;
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         preRotation = headObj.rotation;
+        prePosition = headObj.position;
     }   
 
     void OnAnimatorIK(){
@@ -52,15 +54,18 @@ public class IKControl : MonoBehaviour
             animator.bodyRotation=Quaternion.FromToRotation(transform.forward,Vector3.ProjectOnPlane(qua*transform.forward,Vector3.up));
             
 
+            movedDistance +=Vector3.Distance(prePosition,new Vector3(animator.bodyPosition.x,prePosition.y,animator.bodyPosition.z));
+            float footPosition = 0.15f*Mathf.Sin(10f*movedDistance);
             
+            prePosition = animator.bodyPosition;
             animator.SetIKPositionWeight(AvatarIKGoal.RightFoot,1);
             //animator.SetIKRotationWeight(AvatarIKGoal.RightFoot,1);
-            animator.SetIKPosition(AvatarIKGoal.RightFoot,new Vector3(headObj.position.x,0.1f,headObj.position.z)+Quaternion.FromToRotation(Vector3.forward,Vector3.ProjectOnPlane(animator.bodyRotation*Vector3.forward,Vector3.up))*(new Vector3(0.1f,0,0)));
+            animator.SetIKPosition(AvatarIKGoal.RightFoot,new Vector3(animator.bodyPosition.x,0.1f,animator.bodyPosition.z)+Quaternion.FromToRotation(Vector3.forward,Vector3.ProjectOnPlane(animator.bodyRotation*Vector3.forward,Vector3.up))*(new Vector3(0.1f,0,footPosition)));
             //animator.SetIKRotation(AvatarIKGoal.RightHand,rightHandObj.rotation);
             
             animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot,1);
             //animator.SetIKRotationWeight(AvatarIKGoal.RightFoot,1);
-            animator.SetIKPosition(AvatarIKGoal.LeftFoot,new Vector3(headObj.position.x,0.1f,headObj.position.z)+Quaternion.FromToRotation(Vector3.forward,Vector3.ProjectOnPlane(animator.bodyRotation*Vector3.forward,Vector3.up))*(new Vector3(-0.1f,0,0)));
+            animator.SetIKPosition(AvatarIKGoal.LeftFoot,new Vector3(animator.bodyPosition.x,0.1f,animator.bodyPosition.z)+Quaternion.FromToRotation(Vector3.forward,Vector3.ProjectOnPlane(animator.bodyRotation*Vector3.forward,Vector3.up))*(new Vector3(-0.1f,0,-footPosition)));
             //animator.SetIKRotation(AvatarIKGoal.RightHand,rightHandObj.rotation);
 
 

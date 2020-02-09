@@ -23,6 +23,9 @@ using System.Collections.Generic;
 /// </summary>
 public class OVRGrabbable : MonoBehaviour
 {
+    public bool combined=false;
+    public List<GameObject> combinedObj= new List<GameObject>();
+
     [SerializeField]
     protected bool m_allowOffhandGrab = true;
     [SerializeField]
