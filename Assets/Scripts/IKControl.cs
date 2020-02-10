@@ -17,11 +17,13 @@ public class IKControl : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        Debug.Log(animator);
         preRotation = headObj.rotation;
         prePosition = headObj.position;
     }   
 
     void OnAnimatorIK(){
+
              if(animator){
             //手のトラッキングによるIK
             animator.SetIKPositionWeight(AvatarIKGoal.RightHand,1);

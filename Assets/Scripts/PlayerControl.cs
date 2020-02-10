@@ -6,7 +6,7 @@ public class PlayerControl : MonoBehaviour
 {
     private Rigidbody rb;
     public Transform headObj;
-    
+    public GameObject go;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,5 +18,8 @@ public class PlayerControl : MonoBehaviour
     {
         Vector2 primaryAxis =OVRInput.Get (OVRInput.Axis2D.PrimaryThumbstick);
         rb.velocity=Quaternion.FromToRotation(rb.transform.forward,Vector3.ProjectOnPlane(headObj.forward,Vector3.up))*(new Vector3(primaryAxis.x,0,primaryAxis.y ));
+        if(OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger)>0.8){
+            Instantiate(go);
+        }
     }
 }
